@@ -1,0 +1,29 @@
+
+ Junit:
+
+ 如果IDE是eclipse , 建议建一个跟src 同级别的测试包. test
+ 然后测试类和被测试的类用相同的包命名.
+ 好处: 在junit中调用被测试的方法时，不需要导入.（同包名的情况下，编译之后的测试类跟被测试类会在同一个包中.)
+
+ Junit3:
+
+ 1. XXCase extends TestCase
+ 2. 测试方法 testXXX()
+ 3. 初始化资源 ,测试方法定义setUp();
+ 4. 运行测试之后，释放资源 tearDown();
+
+
+ Junit4:
+ 1.普通的pojo
+ 2.@Before 初始化
+ 3.测试方法 @Test
+ 4.@After 释放资源
+
+ 但注意：虽Junit4对方法名无要求，但还是习惯把初始化命名 setUp(), 释放 tearDown();
+
+
+ Stub:基于状态的测试
+    eg:通常DAO测试的时候，都会向数据库添加，删除数据，这样就会破坏数据库信息.那么Stub就是用来解决这个问题，保证数据库的数据不会被影响
+
+ Mock:基于Mock Object (隔离)
+    eg: A先开发完Service . B的DAO还没开发完 ,那么A就不能进行单元测试.Mock就是用来解决这样的问题
