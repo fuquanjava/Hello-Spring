@@ -23,21 +23,23 @@ public class UserDaoImpl   implements  IUserDAO{
     private JdbcTemplate jdbcTemplate; //没有继承，直接注入
 
 
-    @Resource(name="dataSource1")
-    public  void setDataSource1(DataSource dataSource) {
+    @Resource(name="dataSource")
+    public  void setDataSource(DataSource dataSource) {
+        System.out.println("注入=======dataSource========开始====");
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        System.out.println("注入=======dataSource========成功====");
     }
 
     public void save(User user){
         String saveSql = "insert into d_user(name, email, password,lastLoginTime) values (?,?,?,?)";
-        this.jdbcTemplate.update(saveSql , new Object[]{user.getName() , user.getEmail(),user.getPassword(),user.getLastLoginTime()});
+        this.jdbcTemplate.update(saveSql , new Object[]{user.getName() , user.getEmail(),user.getPassword(),user.getLastlogintime()});
 
     }
 
     @Override
     public void update(User user) {
         String sql = " update d_user  set name = ? , email = ? , password= ? , lastLoginTime = ? where id = ?";
-        this.jdbcTemplate.update(sql, user.getName(),user.getEmail() , user.getPassword(),user.getLastLoginTime() , user.getId());
+        this.jdbcTemplate.update(sql, user.getName(),user.getEmail() , user.getPassword(),user.getLastlogintime() , user.getId());
 
     }
 
@@ -52,7 +54,7 @@ public class UserDaoImpl   implements  IUserDAO{
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setLastLoginTime(rs.getDate("lastLoginTime"));
+                user.setLastlogintime(rs.getDate("lastLoginTime"));
                 return user;
             }
         } , id);
@@ -75,7 +77,7 @@ public class UserDaoImpl   implements  IUserDAO{
                 user.setName(rs.getString("name"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setLastLoginTime(rs.getDate("lastLoginTime"));
+                user.setLastlogintime(rs.getDate("lastLoginTime"));
                 return user;
             }
         });

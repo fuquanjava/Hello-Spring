@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!--根据bean 的 name 映射到 controller , 如果不配置， 默认就是这个handlerMapping-->
+    <bean name="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    <bean name="/a" class="hello.springmvc.controller.HelloControllerXML" />
+
+    <bean name="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+    <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
+
+    <bean name="b" class="hello.springmvc.controller.HelloControllerXML" />
+    <bean name="c" class="hello.springmvc.controller.HelloControllerXML" />
+    <bean name="simpleUrlHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" >
+        <property name="mappings" >
+            <props>
+                <prop key="/b" >b</prop>
+                <prop key="/c" >c</prop>
+            </props>
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/"  />
+        <property name="suffix" value=".jsp" />
+     </bean>
+
+
+    <!--异常处理 -->
+    <bean  class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionAttribute" value="ex" /> <!--exceptionAttribute 默认值: exception -->
+        <property name="exceptionMappings"><!--异常映射 -->
+            <props>
+                <prop key="java.lang.Exception" >error</prop>
+            </props>
+        </property>
+        <!--异常处理器没有匹配到对应的异常时,就会用 defaultException 这个错误视图名-->
+        <property name="defaultErrorView" value="defaultException" />
+
+        <property name="statusCodes" ><!--发生错误，返回给客户端的 http 状态码 -->
+            <props>
+                <prop key="error" >404</prop>
+            </props>
+        </property>
+        <!-- 如果异常不在上面的列表中 ,默认返回下面的状态码 -->
+        <property name="defaultStatusCode" value="404" />
+    </bean>
+
+    <!--
+    <bean name="myMappingExceptionResolver"
+            class="hello.springmvc.ExceptionResolver.MyMappingExceptionResolver" />
+    -->
+
+
+</beans>

@@ -1,36 +1,38 @@
-package hello.spring.aop.entity;
+package hello.springmvc.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * fuquanemail@gamil.com
+ * Date: 14-7-13 下午10:08
  */
-public class User  implements  Serializable{
-    private static final long serialVersionUID = 8160066602222958933L;
+public class User  implements Serializable{
 
-    private String  id ;
-
-    private String name;
-
-    private String password;
-
-    private String email ;
-
-    private Date lastlogintime;
+    private Integer id  = 1; //默认值 1 ，避免 hashcode方法出现空指针
 
 
-    public String getId() {
-        System.out.println("getId:"+id);
+    @NotEmpty(message = "name不能为空!")
+    private  String name ;
+
+    @NotEmpty(message = "password 不能为空!" )
+    @Size(min = 6,max = 12 ,message = "密码位数必须在{min}-{max}位")
+    private String password ;
+
+    private Date loginTime;
+
+    public User() {
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
-        System.out.println("setId:"+id);
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public User() {
     }
 
     public String getName() {
@@ -49,21 +51,12 @@ public class User  implements  Serializable{
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public Date getLoginTime() {
+        return loginTime;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    public Date getLastlogintime() {
-        return lastlogintime;
-    }
-
-    public void setLastlogintime(Date lastlogintime) {
-        this.lastlogintime = lastlogintime;
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
     }
 
     @Override
@@ -84,10 +77,5 @@ public class User  implements  Serializable{
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return this.name+","+this.password+","+this.email+","+this.lastlogintime;
     }
 }

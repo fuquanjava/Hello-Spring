@@ -2,8 +2,11 @@ package hello.spring.jdbc;
 
 import hello.spring.aop.entity.User;
 import hello.spring.jdbc.dao.IUserDAO;
+import hello.spring.jdbc.service.IUserService;
 import org.junit.Test;
-import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
 import java.util.Date;
 
 /**
@@ -12,18 +15,29 @@ import java.util.Date;
  */
 public class UserDaoTest extends  TestBase{
 
-    @Resource
+    @Qualifier("userDao")
+    @Autowired
     private IUserDAO userDao ;
 
+    @Qualifier("userService")
+    @Autowired
+    private IUserService userService;
 
     @Test
+    public void testUserTX(){
+       userService.testUserTX();
+
+    }
+
+
+
     public void testSave() throws Exception {
         User user = new User();
         user.setId("2");
         user.setName("hello");
         user.setEmail("1231@12.com");
         user.setPassword("1231");
-        user.setLastLoginTime(new Date());
+        user.setLastlogintime(new Date());
         userDao.save(user);
     }
 

@@ -14,7 +14,7 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
 	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-    <context:component-scan base-package="hello.spring.jdbc" />
+    <context:component-scan base-package="hello.spring.hibernate" />
     <bean name="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location" value="jdbc.properties" />
     </bean>
@@ -23,7 +23,6 @@
         <property name="url" value="${jdbc_url}" />
         <property name="username" value="${jdbc_user}" />
         <property name="password" value="${jdbc_password}" />
-        <property name="driver" value="${jdbc_driver}" />
 
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1" />
@@ -51,26 +50,26 @@
         <property name="filters" value="stat" />
     </bean>
 
+    <bean name="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="mappingLocations" >
+            <list>
+                <value>classpath:hello/spring/hibernate/dao/User.hbm.xml</value>
+            </list>
+        </property>
 
-       <bean name="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" >
-           <property name="dataSource" ref="dataSource" />
-       </bean>
+        <property name="hibernateProperties" >
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="show_sql" >true</prop>
+                <prop key="format_sql">false</prop>
+            </props>
+        </property>
 
-    <!-- <tx:advice>：事务通知定义，用于指定事务属性，其中“transaction-manager”属性指定事务管理器，
-     并通过< tx:attributes >指定具体需要拦截的方法；-->
+    </bean>
 
-    <tx:advice  id="txAdvice" transaction-manager="txManager">
-        <tx:attributes>
-            <tx:method name="*TX" propagation="REQUIRED"/> <!--事物测试通过 testUserTX-->
-            <tx:method name="*RTX" read-only="true"  propagation="SUPPORTS"/>
-        </tx:attributes>
-    </tx:advice>
-
-
-    <!--JDBC事务-->
-    <aop:config >
-        <aop:pointcut id="serviceTX" expression="execution(* hello.spring.jdbc.service.*..*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceTX" />
-    </aop:config>
+    <bean name="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" >
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
 </beans>
