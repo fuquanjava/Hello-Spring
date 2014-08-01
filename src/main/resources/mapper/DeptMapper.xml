@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+        "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="hello.spring.mybatis.DeptMapper">
+    <select id="findAll" resultType="Dept">
+        <![CDATA[select DEPTNO,DNAME,LOC from T_DEPT]]>
+    </select>
+
+    <insert id="saveDept" parameterType="Dept"
+            keyProperty="deptno" useGeneratedKeys="true">
+        <![CDATA[insert into T_DEPT (DNAME,LOC) values (#{dname},#{loc}) ]]>
+    </insert>
+
+    <insert id="saveDept_oracle" parameterType="Dept" >
+        <selectKey keyProperty="deptno" resultType="int" order="BEFORE" >
+            <![CDATA[select dept_seq.nextval from dual]]>
+        </selectKey>
+        insert into T_DEPT (DEPTNO,DNAME,LOC) values (#{deptno},#{dname},#{loc})
+    </insert>
+
+    <select id="getDept" parameterType="int" resultMap="deptMap" >
+        <![CDATA[select * from t_dept where deptno = #{deptno}]]>
+    </select>
+    <resultMap id="deptMap" type="Dept" >
+        <id column="deptno" property="deptno"  />
+        <!-- ofType指的是List泛型的类型 -->
+        <collection property="emps" ofType="Emp" javaType="java.util.List"
+                        column="deptno" select="selectEmps" />
+    </resultMap>
+    <select id="selectEmps" parameterType="int" resultType="Emp">
+        select * from t_EMP where DEPTNO=#{deptno}
+    </select>
+
+    <select id="listDeptPage" resultType="Dept"  >
+        <![CDATA[ SELECT  * FROM T_DEPT order by ${orderColumn}
+                                      desc LIMIT #{offset} , #{limit} ]]>
+    </select>
+
+    <select id="listDeptPage2" resultType="Dept"  >
+        <![CDATA[ SELECT  * FROM T_DEPT order by ${param1}
+                                        desc LIMIT #{param2} , #{param3} ]]>
+    </select>
+    <select id="listDeptPage3" resultType="Dept"  >
+        <![CDATA[ SELECT  * FROM T_DEPT order by ${0} desc LIMIT #{1} , #{2} ]]>
+    </select>
+</mapper>

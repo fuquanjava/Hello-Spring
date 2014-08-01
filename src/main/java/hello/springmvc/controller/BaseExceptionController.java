@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class BaseExceptionController {
     private Logger log = LoggerFactory.getLogger(BaseExceptionController.class);
-    @ExceptionHandler ({NullPointerException.class , NumberFormatException.class}) //指定异常类型
+    @ExceptionHandler ({NullPointerException.class , NumberFormatException.class ,Exception.class}) //指定异常类型
     public String executeException(HttpServletRequest request ,Exception e){
         request.setAttribute("ex" , e);
         log.info("###BaseExceptionController ### executeException  e:"+e.getMessage());

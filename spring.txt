@@ -13,7 +13,7 @@ IOC容器就可以当成是ApplicationContext
 
 
 spring实例化bean:
-构造方法(默认实现用空参
+构造方法(默认实现用空参)
 静态工厂方法
 实例工厂方法
 

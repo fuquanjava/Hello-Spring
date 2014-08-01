@@ -5,6 +5,6 @@
     <title>main</title>
 </head>
 <body>
-        <h2>欢迎登录</h2> ${user.name}
+        <h2>SUCCESS</h2> <%--${user.name}--%>
 </body>
 </html>

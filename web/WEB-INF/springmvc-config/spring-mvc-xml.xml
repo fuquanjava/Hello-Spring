@@ -4,10 +4,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <!--根据bean 的 name 映射到 controller , 如果不配置， 默认就是这个handlerMapping-->
-    <bean name="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+    <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
     <bean name="/a" class="hello.springmvc.controller.HelloControllerXML" />
 
-    <bean name="simpleControllerHandlerAdapter" class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+
+
     <bean class="org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter" />
 
     <bean name="b" class="hello.springmvc.controller.HelloControllerXML" />

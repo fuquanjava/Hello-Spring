@@ -31,21 +31,21 @@ public class UserDaoImpl   implements  IUserDAO{
     }
 
     public void save(User user){
-        String saveSql = "insert into d_user(name, email, password,lastLoginTime) values (?,?,?,?)";
+        String saveSql = "insert into t_user(name, email, password,lastLoginTime) values (?,?,?,?)";
         this.jdbcTemplate.update(saveSql , new Object[]{user.getName() , user.getEmail(),user.getPassword(),user.getLastlogintime()});
 
     }
 
     @Override
     public void update(User user) {
-        String sql = " update d_user  set name = ? , email = ? , password= ? , lastLoginTime = ? where id = ?";
+        String sql = " update t_user  set name = ? , email = ? , password= ? , lastLoginTime = ? where id = ?";
         this.jdbcTemplate.update(sql, user.getName(),user.getEmail() , user.getPassword(),user.getLastlogintime() , user.getId());
 
     }
 
     @Override
     public User getUserById(String id) {
-        String sql =  "select id , name , email , password , lastLoginTime from d_user where id = ?";
+        String sql =  "select id , name , email , password , lastLoginTime from t_user where id = ?";
         return  this.jdbcTemplate.queryForObject(sql,new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -62,13 +62,13 @@ public class UserDaoImpl   implements  IUserDAO{
 
     @Override
     public void delete(String id) {
-        String sql =  " delete from d_user where id = ?";
+        String sql =  " delete from t_user where id = ?";
         this.jdbcTemplate.update(sql , id);
     }
 
 
     public List<User> listAll() {
-        String sql =  " select id , name , email , password , lastLoginTime from d_user";
+        String sql =  " select id , name , email , password , lastLoginTime from t_user";
         return this.jdbcTemplate.query(sql, new RowMapper<User>() {
             @Override
             public User mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -85,7 +85,7 @@ public class UserDaoImpl   implements  IUserDAO{
 
     @Override
     public int queryCount() {
-        String sql  = "select count(1) from d_user";
+        String sql  = "select count(1) from t_user";
         return this.jdbcTemplate.queryForInt(sql);
     }
 

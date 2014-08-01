@@ -3,6 +3,13 @@
         "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
     <properties resource="jdbc.properties" />
+
+    <typeAliases>
+        <typeAlias type="hello.spring.mybatis.pojo.Dept" alias="Dept" />
+        <typeAlias type="hello.spring.mybatis.pojo.Emp" alias="Emp" />
+        <typeAlias type="hello.spring.aop.entity.User" alias="User" />
+    </typeAliases>
+
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC" />
@@ -16,7 +23,9 @@
     </environments>
 
     <mappers>
-        <mapper resource="mapper/User.xml"  />
+        <mapper resource="mapper/DeptMapper.xml"  />
+        <mapper resource="mapper/UserMapper.xml"  />
+        <mapper resource="mapper/EmpMapper.xml"  />
     </mappers>
 
 </configuration>

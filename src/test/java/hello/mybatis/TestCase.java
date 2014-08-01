@@ -48,7 +48,7 @@ public class TestCase {
     }
     @Test
     public void insert(){
-        for (int i = 0; i<10000; i++){
+        for (int i = 0; i<100; i++){
             User u1 = new User();
             u1.setName("uuu"+i);
             u1.setPassword("000"+i);
